@@ -1,22 +1,20 @@
-'use client'
+import {useEffect} from "react";
+import * as THREE from "three";
+import {MTLLoader} from "@/lib/MTLLoader";
+import {OBJLoader} from "@/lib/OBJLoader";
 
-// pages/index.tsx
-import { useEffect } from 'react';
-import * as THREE from 'three';
-import { MTLLoader } from '@/lib/MTLLoader'
-import { OBJLoader } from '@/lib/OBJLoader';
-
-export default function Home() {
+const useCat = () => {
   useEffect(() => {
     // Scene setup
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x121417);
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
     // Set camera position above the model
-    camera.position.set(0, -70, 70);
+    camera.position.set(0, -100, 60);
     camera.lookAt(0, 0, 0); // Look at the center of the scene
 
     // Load the .mtl file and then .obj file
@@ -36,7 +34,7 @@ export default function Home() {
           const animate = () => {
             requestAnimationFrame(animate);
 
-            object.rotation.z += 0.01; // Rotate the object around the Y-axis
+            object.rotation.z += 0.02; // Rotate the object around the Y-axis
             renderer.render(scene, camera);
           };
 
@@ -50,7 +48,7 @@ export default function Home() {
     });
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    const ambientLight = new THREE.AmbientLight(0xcbcbcb);
     scene.add(ambientLight);
 
     // Directional Light: simulates sunlight and creates shadows
@@ -65,8 +63,6 @@ export default function Home() {
       document.body.removeChild(renderer.domElement);
     };
   }, []);
-
-  return (
-    <div />
-  );
 }
+
+export default useCat;
